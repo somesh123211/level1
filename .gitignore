@@ -1,0 +1,8 @@
+# Local files
+__pycache__/
+.env
+*.pyc
+
+# Remote files
+node_modules/
+dist/
