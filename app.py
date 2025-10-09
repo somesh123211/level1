@@ -130,6 +130,8 @@ def login():
     else:
         return jsonify({"message": "Email not registered"}), 400
 
-# Run Flask app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    import os
+    port = int(os.getenv("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
