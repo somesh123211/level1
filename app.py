@@ -39,20 +39,19 @@ def send_otp_email(email, otp):
         msg = EmailMessage()
         msg.set_content(f"Your OTP is: {otp}")
         msg['Subject'] = "Student Placement OTP"
-        msg['From'] = "indra656778@gmail.com"  # verified sender
+        msg['From'] = "indra656778@gmail.com"
         msg['To'] = email
 
-        # Connect to SendGrid SMTP with TLS
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
             server.login(SMTP_USERNAME, SMTP_PASSWORD)
             server.send_message(msg)
-
         print("Email sent successfully to", email)
         return True
     except Exception as e:
-        print("SMTP Error:", e)
+        print("SMTP Error:", e)  # <-- Print full error
         return False
+
 
 # Home route
 @app.route('/')
