@@ -34,22 +34,29 @@ except Exception as e:
     print("❌ MongoDB Connection Error:", e)
 
 # Helper function to send OTP via SMTP
-def send_otp_email(email, otp):
-    try:
-        msg = EmailMessage()
-        msg.set_content(f"Your OTP is: {otp}")
-        msg['Subject'] = "Student Placement OTP"
-        msg['From'] = "indra656778@gmail.com"
-        msg['To'] = email
+import requests
+import os
 
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-            server.starttls()
-            server.login(SMTP_USERNAME, SMTP_PASSWORD)
-            server.send_message(msg)
-        print("Email sent successfully to", email)
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+
+def send_otp_email(email, otp):
+    url = "https://api.sendgrid.com/v3/mail/send"
+    headers = {
+        "Authorization": f"Bearer {SENDGRID_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "personalizations": [{"to": [{"email": email}]}],
+        "from": {"email": "indra656778@gmail.com"},  # your verified sender
+        "subject": "Student Placement OTP",
+        "content": [{"type": "text/plain", "value": f"Your OTP is: {otp}"}]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    if response.status_code == 202:
+        print("OTP sent successfully to", email)
         return True
-    except Exception as e:
-        print("SMTP Error:", e)  # <-- Print full error
+    else:
+        print("SendGrid Error:", response.status_code, response.text)
         return False
 
 
