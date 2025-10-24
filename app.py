@@ -18,9 +18,6 @@ import base64
 from bson.binary import Binary
 from functools import wraps
 
-@app.route("/python-version")
-def python_version():
-    return sys.version
 
 
 # -----------------------------
