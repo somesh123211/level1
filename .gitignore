@@ -1,8 +1,16 @@
-# Local files
-__pycache__/
-.env
-*.pyc
+# Ignore virtual environment
+venv/
 
-# Remote files
-node_modules/
-dist/
+# Ignore caches and system files
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.sqlite3
+.DS_Store
+
+# Ignore environment variables and configs
+.env
+
+# Ignore nested git repo
+backend_flask/.git/
